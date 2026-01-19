@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRMNL Custom Logo Uploader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="app.js"></script>
+    <script type="module" src="https://unpkg.com/@zjwhitehead/esp-web-tools@10.2.0-b1/dist/web/install-button.js?module"></script>
+    <script src="g5_wasm.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fff;
+            color: #111;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            padding: 48px 0 32px;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 48px;
+        }
+
+        .logo {
+            margin-bottom: 24px;
+        }
+
+        .logo svg {
+            height: 32px;
+            width: auto;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #6b7280;
+            max-width: 600px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 64px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 32px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .upload-zone {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+
+        .upload-zone:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .upload-zone.active {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .upload-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .preview {
+            margin-top: 24px;
+            display: none;
+        }
+
+        .preview img {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 12px;
+        }
+
+        .preview-info {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-top: 16px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            background: #f0fdf4;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+
+        .flash-card {
+            grid-column: 1 / -1;
+        }
+
+        .status {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d1d5db;
+        }
+
+        .dot.ready {
+            background: #10b981;
+        }
+
+        .status-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #10b981;
+            color: #fff;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .btn:disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .install-section {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .instructions {
+            margin-top: 32px;
+            padding: 24px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+
+        .instructions h3 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            border-top: 1px solid #e5e7eb;
+            padding: 32px 0;
+            margin-top: 64px;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+    <script type="module">
+      import { combineLogoAndLoader } from './app.js';
+
+      (function() {
+        const els = {
+          logoInput: document.getElementById('logo-input'),
+          loaderInput: document.getElementById('loader-input'),
+          logoZone: document.getElementById('logo-zone'),
+          loaderZone: document.getElementById('loader-zone'),
+          logoPreview: document.getElementById('logo-preview'),
+          loaderPreview: document.getElementById('loader-preview'),
+          logoMsg: document.getElementById('logo-msg'),
+          loaderMsg: document.getElementById('loader-msg'),
+          logoDot: document.getElementById('logo-dot'),
+          loaderDot: document.getElementById('loader-dot'),
+          logoStatus: document.getElementById('logo-status'),
+          loaderStatus: document.getElementById('loader-status'),
+          generateBtn: document.getElementById('generate-btn')
+        };
+
+        let state = {
+          logo: { file: null, valid: false },
+          loader: { file: null, valid: false }
+        };
+
+        function validateImage(file, callback) {
+          const img = new Image();
+          const url = URL.createObjectURL(file);
+
+          img.onload = () => {
+            const valid = img.width <= 800 && img.height <= 480;
+            callback({ valid, width: img.width, height: img.height, url });
+            if (!valid) URL.revokeObjectURL(url);
+          };
+
+          img.onerror = () => {
+            URL.revokeObjectURL(url);
+            callback({ valid: false });
+          };
+
+          img.src = url;
+        }
+
+        function updateUI() {
+          const allValid = state.logo.valid && state.loader.valid;
+          els.generateBtn.disabled = !allValid;
+
+          els.logoDot.classList.toggle('ready', state.logo.valid);
+          els.loaderDot.classList.toggle('ready', state.loader.valid);
+
+          els.logoStatus.textContent = state.logo.valid ? 'Ready' : 'Waiting';
+          els.loaderStatus.textContent = state.loader.valid ? 'Ready' : 'Waiting';
+        }
+
+        function handleFile(file, type) {
+          const isLogo = type === 'logo';
+          const zone = isLogo ? els.logoZone : els.loaderZone;
+          const preview = isLogo ? els.logoPreview : els.loaderPreview;
+          const msg = isLogo ? els.logoMsg : els.loaderMsg;
+
+          msg.style.display = 'none';
+          msg.className = 'message';
+          preview.style.display = 'none';
+
+          if (!file.type.startsWith('image/')) {
+            msg.textContent = 'Please upload an image file';
+            msg.classList.add('error');
+            msg.style.display = 'block';
+            return;
+          }
+
+          zone.innerHTML = '<div class="upload-icon">⏳</div><div class="upload-text">Processing...</div>';
+
+          validateImage(file, result => {
+            zone.innerHTML = `
+              <div class="upload-icon">📁</div>
+              <div class="upload-text">${file.name}</div>
+              <div class="upload-hint">Click to replace</div>
+            `;
+
+            if (result.valid) {
+              preview.querySelector('img').src = result.url;
+              preview.querySelector('.preview-info').textContent =
+                `${result.width}×${result.height} • ${(file.size / 1024).toFixed(1)} KB`;
+              preview.style.display = 'block';
+
+              msg.textContent = `Valid image (${result.width}×${result.height})`;
+              msg.classList.add('success');
+              msg.style.display = 'block';
+
+              state[type] = { file, valid: true };
+            } else {
+              msg.textContent = result.width
+                ? `Invalid: ${result.width}×${result.height} (max 800×480)`
+                : 'Failed to load image';
+              msg.classList.add('error');
+              msg.style.display = 'block';
+
+              state[type] = { file: null, valid: false };
+            }
+
+            updateUI();
+          });
+        }
+
+        function setupUpload(zone, input, type) {
+          zone.onclick = () => input.click();
+
+          zone.ondragover = e => {
+            e.preventDefault();
+            zone.classList.add('active');
+          };
+
+          zone.ondragleave = () => zone.classList.remove('active');
+
+          zone.ondrop = e => {
+            e.preventDefault();
+            zone.classList.remove('active');
+            if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0], type);
+          };
+
+          input.onchange = () => {
+            if (input.files[0]) handleFile(input.files[0], type);
+          };
+        }
+
+        setupUpload(els.logoZone, els.logoInput, 'logo');
+        setupUpload(els.loaderZone, els.loaderInput, 'loader');
+
+        els.generateBtn.onclick = async () => {
+          if (!state.logo.valid || !state.loader.valid) return;
+
+          const btn = els.generateBtn;
+          btn.textContent = 'Generating...';
+          btn.disabled = true;
+
+          try {
+            const blob = await combineLogoAndLoader();
+            const manifest = {
+              name: "TRMNL Firmware",
+              new_install_prevent_erase: true,
+              builds: [{
+                chipFamily: 'TRMNL',
+                parts: [{ path: URL.createObjectURL(blob), offset: "0x3ff000" }]
+              }]
+            };
+
+            const manifestBlob = new Blob([JSON.stringify(manifest)], {type: "application/json"});
+            document.querySelector("esp-web-install-button").manifest = URL.createObjectURL(manifestBlob);
+
+            btn.textContent = 'Ready to Flash!';
+            setTimeout(() => {
+              btn.textContent = 'Generate Firmware';
+              btn.disabled = false;
+            }, 2000);
+          } catch (error) {
+            console.error(error);
+            btn.textContent = 'Error - Try Again';
+            setTimeout(() => {
+              btn.textContent = 'Generate Firmware';
+              btn.disabled = false;
+            }, 2000);
+          }
+        };
+
+        updateUI();
+      })();
+    </script>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo">
+            <svg viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="45" font-family="Inter, system-ui, sans-serif" font-size="48" font-weight="700" fill="#000" letter-spacing="-0.02em">TRMNL</text>
+            </svg>
+        </div>
+        <h1>Custom Logo Uploader</h1>
+        <p class="subtitle">Upload custom logo and loader images for your TRMNL. Maximum 800×480 pixels.</p>
+    </header>
+
+    <div class="grid">
+        <div class="card">
+            <h2>Logo Image</h2>
+            <div class="upload-zone" id="logo-zone">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Click or drag logo</div>
+                <div class="upload-hint">Max 800×480 pixels</div>
+            </div>
+            <input type="file" id="logo-input" accept="image/*">
+            <div class="message" id="logo-msg"></div>
+            <div class="preview" id="logo-preview">
+                <img alt="Logo preview">
+                <div class="preview-info"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Loader Image</h2>
+            <div class="upload-zone" id="loader-zone">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Click or drag loader</div>
+                <div class="upload-hint">Max 800×480 pixels</div>
+            </div>
+            <input type="file" id="loader-input" accept="image/*">
+            <div class="message" id="loader-msg"></div>
+            <div class="preview" id="loader-preview">
+                <img alt="Loader preview">
+                <div class="preview-info"></div>
+            </div>
+        </div>
+
+        <div class="card flash-card">
+            <h2>Flash Firmware</h2>
+
+            <div class="status">
+                <div class="status-item">
+                    <div class="dot" id="logo-dot"></div>
+                    <span class="status-label">Logo: <span id="logo-status">Waiting</span></span>
+                </div>
+                <div class="status-item">
+                    <div class="dot" id="loader-dot"></div>
+                    <span class="status-label">Loader: <span id="loader-status">Waiting</span></span>
+                </div>
+            </div>
+
+            <button class="btn" id="generate-btn" disabled>Generate Binary</button>
+
+            <div class="install-section">
+                <esp-web-install-button>Connect and upload custom Logo</esp-web-install-button>
+            </div>
+
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <ol>
+                    <li>Upload logo and loader images (max 800×480 pixels)</li>
+                    <li>Click "Generate Binary"</li>
+                    <li>Connect TRMNL via USB</li>
+                    <li>Click "Connect" and select device</li>
+                    <li>Upload the Logo Binary to TRMNL.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        TRMNL Custom Logo Uploader
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+[submodule "g5_imageconvert"]
+	path = g5_imageconvert
+	url = git@github.com:bitbank2/g5_imageconvert.git

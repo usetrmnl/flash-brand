@@ -59,14 +59,12 @@ function downloadBinaryFile(data, filename) {
   }, 100);
 }
 
-export async function createBinary() {
+export async function createBinary(logoFile, loaderFile) {
   const BRAND_NAME = "TRMNL";
   const API_URL = "https://trmnl.app";
 
-  const logo = document.getElementById('logo-input');
-  const loader = document.getElementById('loader-input');
-  const logoBinary = await encodePNG(logo.files[0]);
-  const loaderBinary = await encodePNG(loader.files[0]);
+  const logoBinary = await encodePNG(logoFile);
+  const loaderBinary = await encodePNG(loaderFile);
 
   const totalLength = logoBinary.length + loaderBinary.length;
   if (totalLength > IMAGES_SIZE) {

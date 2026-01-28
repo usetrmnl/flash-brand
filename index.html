@@ -3,260 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRMNL Custom Logo Uploader</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>TRMNL Tailor - Custom Branding Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="design-system.css">
     <script type="module" src="app.js"></script>
     <script type="module" src="https://unpkg.com/@zjwhitehead/esp-web-tools@10.2.0-b1/dist/web/install-button.js?module"></script>
     <script src="g5_wasm.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #fff;
-            color: #111;
-            line-height: 1.5;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        header {
-            padding: 48px 0 32px;
-            border-bottom: 1px solid #e5e7eb;
-            margin-bottom: 48px;
-        }
-
-        .logo {
-            margin-bottom: 24px;
-        }
-
-        .logo svg {
-            height: 32px;
-            width: auto;
-        }
-
-        h1 {
-            font-size: 48px;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
-        }
-
-        .subtitle {
-            font-size: 18px;
-            color: #6b7280;
-            max-width: 600px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-bottom: 64px;
-        }
-
-        .card {
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 32px;
-        }
-
-        .card h2 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .upload-zone {
-            border: 2px dashed #d1d5db;
-            border-radius: 8px;
-            padding: 48px 24px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: #fafafa;
-        }
-
-        .upload-zone:hover {
-            border-color: #10b981;
-            background: #f0fdf4;
-        }
-
-        .upload-zone.active {
-            border-color: #10b981;
-            background: #f0fdf4;
-        }
-
-        .upload-icon {
-            font-size: 32px;
-            margin-bottom: 16px;
-        }
-
-        .upload-text {
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .upload-hint {
-            font-size: 14px;
-            color: #9ca3af;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        .preview {
-            margin-top: 24px;
-            display: none;
-        }
-
-        .preview img {
-            width: 100%;
-            border-radius: 6px;
-            border: 1px solid #e5e7eb;
-            margin-bottom: 12px;
-        }
-
-        .preview-info {
-            font-size: 14px;
-            color: #6b7280;
-        }
-
-        .message {
-            padding: 12px 16px;
-            border-radius: 6px;
-            margin-top: 16px;
-            font-size: 14px;
-            display: none;
-        }
-
-        .message.error {
-            background: #fef2f2;
-            color: #dc2626;
-            border: 1px solid #fecaca;
-        }
-
-        .message.success {
-            background: #f0fdf4;
-            color: #059669;
-            border: 1px solid #a7f3d0;
-        }
-
-        .flash-card {
-            grid-column: 1 / -1;
-        }
-
-        .status {
-            display: flex;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #d1d5db;
-        }
-
-        .dot.ready {
-            background: #10b981;
-        }
-
-        .status-label {
-            font-size: 14px;
-            color: #6b7280;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: #10b981;
-            color: #fff;
-        }
-
-        .btn:hover:not(:disabled) {
-            background: #059669;
-        }
-
-        .btn:disabled {
-            background: #e5e7eb;
-            color: #9ca3af;
-            cursor: not-allowed;
-        }
-
-        .install-section {
-            margin-top: 32px;
-            padding-top: 32px;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .instructions {
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 8px;
-        }
-
-        .instructions h3 {
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 16px;
-        }
-
-        .instructions ol {
-            padding-left: 20px;
-            font-size: 14px;
-            color: #6b7280;
-        }
-
-        .instructions li {
-            margin-bottom: 5px;
-        }
-
-        footer {
-            border-top: 1px solid #e5e7eb;
-            padding: 32px 0;
-            margin-top: 64px;
-            text-align: center;
-            font-size: 14px;
-            color: #6b7280;
-        }
-
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 36px;
-            }
-        }
-    </style>
     <script type="module">
       import { createBinary } from './app.js';
 
@@ -266,20 +19,16 @@
           loaderInput: document.getElementById('loader-input'),
           logoZone: document.getElementById('logo-zone'),
           loaderZone: document.getElementById('loader-zone'),
-          logoPreview: document.getElementById('logo-preview'),
-          loaderPreview: document.getElementById('loader-preview'),
-          logoMsg: document.getElementById('logo-msg'),
-          loaderMsg: document.getElementById('loader-msg'),
-          logoDot: document.getElementById('logo-dot'),
-          loaderDot: document.getElementById('loader-dot'),
+          logoBadge: document.getElementById('logo-badge'),
+          loaderBadge: document.getElementById('loader-badge'),
           logoStatus: document.getElementById('logo-status'),
           loaderStatus: document.getElementById('loader-status'),
           generateBtn: document.getElementById('generate-btn')
         };
 
         let state = {
-          logo: { file: null, valid: false },
-          loader: { file: null, valid: false }
+          logo: { file: null, valid: false, objectURL: null, status: 'waiting' },
+          loader: { file: null, valid: false, objectURL: null, status: 'waiting' }
         };
 
         function validateImage(file, callback) {
@@ -300,62 +49,87 @@
           img.src = url;
         }
 
+        function getBadgeClass(status) {
+          if (status === 'ready') return 'badge badge-green';
+          if (status === 'invalid') return 'badge badge-red';
+          return 'badge badge-gray';
+        }
+
+        function getBadgeText(type) {
+          const status = state[type].status;
+          if (status === 'ready') return 'Ready';
+          if (status === 'invalid') return state[type].invalidReason || 'Invalid';
+          return 'Waiting';
+        }
+
         function updateUI() {
           const allValid = state.logo.valid && state.loader.valid;
           els.generateBtn.disabled = !allValid;
 
-          els.logoDot.classList.toggle('ready', state.logo.valid);
-          els.loaderDot.classList.toggle('ready', state.loader.valid);
-
-          els.logoStatus.textContent = state.logo.valid ? 'Ready' : 'Waiting';
-          els.loaderStatus.textContent = state.loader.valid ? 'Ready' : 'Waiting';
+          els.logoBadge.className = getBadgeClass(state.logo.status);
+          els.loaderBadge.className = getBadgeClass(state.loader.status);
+          els.logoStatus.textContent = getBadgeText('logo');
+          els.loaderStatus.textContent = getBadgeText('loader');
         }
 
         function handleFile(file, type) {
           const isLogo = type === 'logo';
           const zone = isLogo ? els.logoZone : els.loaderZone;
-          const preview = isLogo ? els.logoPreview : els.loaderPreview;
-          const msg = isLogo ? els.logoMsg : els.loaderMsg;
 
-          msg.style.display = 'none';
-          msg.className = 'message';
-          preview.style.display = 'none';
+          if (state[type].objectURL) {
+            URL.revokeObjectURL(state[type].objectURL);
+            state[type].objectURL = null;
+          }
+
+          // Remove background image element if it exists
+          const bgElement = zone.querySelector('.upload-zone-bg');
+          if (bgElement) {
+            bgElement.remove();
+          }
+          zone.style.backgroundImage = '';
+          zone.style.backgroundSize = '';
+          zone.style.backgroundPosition = '';
+          zone.style.backgroundRepeat = '';
+          zone.style.filter = '';
+          zone.style.transition = '';
+          zone.classList.remove('upload-zone--has-image');
 
           if (!file.type.startsWith('image/')) {
-            msg.textContent = 'Please upload an image file';
-            msg.classList.add('error');
-            msg.style.display = 'block';
+            state[type] = { file: null, valid: false, objectURL: null, status: 'invalid', invalidReason: 'Not an image' };
+            updateUI();
             return;
           }
 
-          zone.innerHTML = '<div class="upload-icon">⏳</div><div class="upload-text">Processing...</div>';
+          zone.innerHTML = `<div class="upload-text">Processing...</div><div class="upload-icon">⏳</div><div class="upload-hint">Max 800×480 pixels</div>`;
 
           validateImage(file, result => {
-            zone.innerHTML = `
-              <div class="upload-icon">📁</div>
-              <div class="upload-text">${file.name}</div>
-              <div class="upload-hint">Click to replace</div>
-            `;
-
             if (result.valid) {
-              preview.querySelector('img').src = result.url;
-              preview.querySelector('.preview-info').textContent =
-                `${result.width}×${result.height} • ${(file.size / 1024).toFixed(1)} KB`;
-              preview.style.display = 'block';
+              zone.classList.add('upload-zone--has-image');
+              zone.innerHTML = '';
+              
+              // Create separate element for background image
+              const bgElement = document.createElement('div');
+              bgElement.className = 'upload-zone-bg';
+              bgElement.style.backgroundImage = `url(${result.url})`;
+              bgElement.style.filter = 'blur(8px)';
+              zone.appendChild(bgElement);
+              
+              // Animate from blur to sharp
+              requestAnimationFrame(() => {
+                bgElement.style.transition = 'filter 0.4s ease-out';
+                bgElement.style.filter = 'blur(0)';
+              });
 
-              msg.textContent = `Valid image (${result.width}×${result.height})`;
-              msg.classList.add('success');
-              msg.style.display = 'block';
-
-              state[type] = { file, valid: true };
+              state[type] = { file, valid: true, objectURL: result.url, status: 'ready' };
             } else {
-              msg.textContent = result.width
-                ? `Invalid: ${result.width}×${result.height} (max 800×480)`
-                : 'Failed to load image';
-              msg.classList.add('error');
-              msg.style.display = 'block';
+              // Keep drop zone in original state - don't change it
+              zone.innerHTML = `
+                <div class="upload-text">Click or drag to upload</div>
+                <div class="upload-hint">Max 800×480 pixels</div>
+              `;
 
-              state[type] = { file: null, valid: false };
+              const invalidReason = result.width ? 'Too large' : 'Load failed';
+              state[type] = { file: null, valid: false, objectURL: null, status: 'invalid', invalidReason };
             }
 
             updateUI();
@@ -363,8 +137,10 @@
         }
 
         function setupUpload(zone, input, type) {
+          // Make zone clickable
           zone.onclick = () => input.click();
 
+          // Handle drag events on the zone itself
           zone.ondragover = e => {
             e.preventDefault();
             zone.classList.add('active');
@@ -394,7 +170,7 @@
           btn.disabled = true;
 
           try {
-            const blob = await createBinary();
+            const blob = await createBinary(state.logo.file, state.loader.file);
             const manifest = {
               name: "TRMNL Firmware",
               new_install_prevent_erase: true,
@@ -408,10 +184,7 @@
             document.querySelector("esp-web-install-button").manifest = URL.createObjectURL(manifestBlob);
 
             btn.textContent = 'Ready to Flash!';
-            setTimeout(() => {
-              btn.textContent = '';
-              btn.disabled = true;
-            }, 2000);
+            btn.disabled = true;
           } catch (error) {
             console.error(error);
             btn.textContent = 'Error - Try Again';
@@ -424,97 +197,216 @@
 
         updateUI();
       })();
+
+      function showError(message) {
+        const errorText = document.getElementById("error-text");
+        const errorMessage = document.getElementById("error-message");
+        if (errorText && errorMessage) {
+          errorText.textContent = message;
+          errorMessage.classList.remove("hidden");
+        }
+      }
+
+      function checkForBrowserError(installButton) {
+        const shadowText = installButton.shadowRoot?.textContent?.trim();
+        if (shadowText?.includes('Your browser does not support')) {
+          showError(shadowText);
+          installButton.style.display = 'none';
+          return true;
+        }
+        return false;
+      }
+
+      function setupErrorHandling() {
+        const installButton = document.querySelector("esp-web-install-button");
+        if (!installButton) return;
+
+        customElements.whenDefined('esp-web-install-button').then(() => {
+          if (!checkForBrowserError(installButton)) {
+            setTimeout(() => checkForBrowserError(installButton), 25);
+            setTimeout(() => checkForBrowserError(installButton), 200);
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupErrorHandling);
+      } else {
+        setupErrorHandling();
+      }
     </script>
+    <style>
+      :root {
+        --esp-tools-button-color: #f8654b;
+        --esp-tools-button-text-color: #ffffff;
+        --esp-tools-button-border-radius: .5rem;
+      }
+    </style>
 </head>
 <body>
 <div class="container">
-    <header>
-        <a class="logo" href="https://trmnl.com/">
-            <svg viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <text x="0" y="45" font-family="Inter, system-ui, sans-serif" font-size="48" font-weight="700" fill="#000" letter-spacing="-0.02em">TRMNL</text>
-            </svg>
-        </a>
+    <header class="header">
+        <!-- TRMNL Glyph -->
+        <svg class="header-glyph" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M24.07,6.34l23.59,8.88-4.38,11.73-23.59-8.88,4.38-11.73Z" fill="currentColor"/>
+            <path fill-rule="evenodd" d="M61.89,3.44l7.79,24.06-11.87,3.87-7.79-24.06,11.87-3.87Z" fill="currentColor"/>
+            <path fill-rule="evenodd" d="M87.73,31.34l-13.88,21.12-10.42-6.9,13.88-21.12,10.42,6.9Z" fill="currentColor"/>
+            <path fill-rule="evenodd" d="M82.12,69.01l-25.1,2.27-1.12-12.48,25.1-2.27,1.12,12.48Z" fill="currentColor"/>
+            <path fill-rule="evenodd" d="M49.29,88.09l-17.42-18.28,9.02-8.66,17.42,18.28-9.02,8.66Z" fill="currentColor"/>
+            <path fill-rule="evenodd" d="M13.96,74.23l3.38-25.07,12.37,1.68-3.38,25.07-12.37-1.68Z" fill="currentColor"/>
+            <path fill-rule="evenodd" d="M2.73,37.82l21.63-12.98,6.4,10.75-21.63,12.98-6.4-10.75Z" fill="currentColor"/>
+        </svg>
+        <p class="eyebrow">Custom branding tool</p>
         <h1>Tailor your TRMNL</h1>
-        <p class="subtitle">Upload custom logo and loader images to your TRMNL. Maximum 800×480 pixels.</p>
+        <p class="subtitle">Upload custom splash and loader images. Flash them directly to your device via USB - no coding required.</p>
     </header>
 
-    <div class="grid">
-        <div class="card">
-            <h2>Logo Image</h2>
-            <div class="upload-zone" id="logo-zone">
-                <div class="upload-icon">📁</div>
-                <div class="upload-text">Click or drag logo</div>
-                <div class="upload-hint">Max 800×480 pixels</div>
-            </div>
-            <input type="file" id="logo-input" accept="image/*">
-            <div class="message" id="logo-msg"></div>
-            <div class="preview" id="logo-preview">
-                <img alt="Logo preview">
-                <div class="preview-info"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Loader Image</h2>
-            <div class="upload-zone" id="loader-zone">
-                <div class="upload-icon">📁</div>
-                <div class="upload-text">Click or drag loader</div>
-                <div class="upload-hint">Max 800×480 pixels</div>
-            </div>
-            <input type="file" id="loader-input" accept="image/*">
-            <div class="message" id="loader-msg"></div>
-            <div class="preview" id="loader-preview">
-                <img alt="Loader preview">
-                <div class="preview-info"></div>
-            </div>
-        </div>
-
-        <div class="card flash-card">
-            <h2>Upload Firmware</h2>
-
-            <div class="status">
-                <div class="status-item">
-                    <div class="dot" id="logo-dot"></div>
-                    <span class="status-label">Logo: <span id="logo-status">Waiting</span></span>
+    <div class="grid grid-2-md">
+        <div>
+            <div class="steps md:max-w-lg">
+                <div class="step">
+                    <p class="step-title">
+                        <span class="step-number">1</span>
+                        <span>Upload images</span>
+                    </p>
+                    <p class="step-content">Upload splash and loader images (max 800×480 pixels).</p>
                 </div>
-                <div class="status-item">
-                    <div class="dot" id="loader-dot"></div>
-                    <span class="status-label">Loader: <span id="loader-status">Waiting</span></span>
+
+                <div class="step">
+                    <p class="step-title">
+                        <span class="step-number">2</span>
+                        <span>Generate binary</span>
+                    </p>
+                    <p class="step-content">Click the 'Generate Binary' button.</p>
+                </div>
+
+                <div class="step">
+                    <p class="step-title">
+                        <span class="step-number">3</span>
+                        <span>Plug in your device</span>
+                    </p>
+                    <p class="step-content">Use a USB-C cable to connect your TRMNL to your computer.</p>
+                </div>
+
+                <div class="step">
+                    <p class="step-title">
+                        <span class="step-number">4</span>
+                        <span>Enter 'Flashing mode'</span>
+                    </p>
+                    <ol class="step-list">
+                        <li>Turn off the device by flipping the power switch to 'OFF'</li>
+                        <li>While pressing down on the circular button, flip the power switch to 'ON'</li>
+                        <li>Let go of the circular button</li>
+                    </ol>
+                </div>
+
+                <div class="step">
+                    <p class="step-title">
+                        <span class="step-number">5</span>
+                        <span>Flash firmware</span>
+                    </p>
+                    <ol class="step-list">
+                        <li>Click the 'Connect' button above</li>
+                        <li>Select 'USB JTAG/serial...' from the list</li>
+                        <li>Select 'Install' from the popup menu and confirm</li>
+                        <li>Wait for the device to write brand binary (this may take up to a minute)</li>
+                        <li>You should see a confirmation message within the popup menu</li>
+                    </ol>
+                </div>
+
+                <div class="step">
+                    <p class="step-title">
+                        <span class="step-number">6</span>
+                        <span>Restart your device</span>
+                    </p>
+                    <ol class="step-list">
+                        <li>Turn the device off by flipping the power switch to 'OFF'</li>
+                        <li>Wait approximately 15 seconds</li>
+                        <li>Flip the power switch to 'ON'</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-6">
+            <div class="card">
+                <div class="flex flex-col gap-6">
+                    <h2>Upload Images</h2>
+
+                    <div class="flex flex-col gap-5">
+                        <div class="grid grid-2 gap-5">
+                            <div class="flex flex-col">
+                                <div class="upload-zone aspect-square" id="logo-zone">
+                                    <div class="upload-text">Click or drag to upload</div>
+                                    <div class="upload-hint">Max 800×480 pixels</div>
+                                </div>
+                                <div class="flex justify-between items-center mt-4">
+                                    <span class="upload-status-heading">Splash image</span>
+                                    <span class="badge badge-gray" id="logo-badge"><span id="logo-status">Waiting</span></span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col">
+                                <div class="upload-zone aspect-square" id="loader-zone">
+                                    <div class="upload-text">Click or drag to upload</div>
+                                    <div class="upload-hint">Max 800×480 pixels</div>
+                                </div>
+                                <div class="flex justify-between items-center mt-4">
+                                    <span class="upload-status-heading">Loader image</span>
+                                    <span class="badge badge-gray" id="loader-badge"><span id="loader-status">Waiting</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-2 gap-5">
+                            <div class="field-group">
+                                <input type="file" id="logo-input" accept="image/*">
+                            </div>
+
+                            <div class="field-group">
+                                <input type="file" id="loader-input" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <button class="btn" id="generate-btn" disabled>Generate Binary</button>
+            <div class="card">
+                <div class="flex flex-col gap-6">
+                    <h2>Generate binary</h2>
 
-            <div class="install-section">
-                <esp-web-install-button></esp-web-install-button>
+                    <button class="btn btn-lg btn-primary" id="generate-btn" disabled>Generate Binary</button>
+                </div>
             </div>
-        </div>
-        <div class="card flash-card">
-            <h2>Instructions</h2>
-            <div class="instructions">
-                <ol>
-                    <li>Upload logo and loader images (max 800×480 pixels)</li>
-                    <li>Click 'Generate Binary'</li>
-                    <li>Plug in your device via USB</li>
-                    <li>Enter Flashing mode</li>
-                        <ol>1. Turn off the device by flipping the power switch to 'OFF'</ol>
-                        <ol>2. While pressing down on the circular button, flip the power switch to 'ON'</ol>
-                        <ol>3. Let go of the circular button</ol>
-                    <li>Upload Brand Binary to device</li>
-                        <ol>1. Click the 'Connect' button below</ol>
-                        <ol>2. Select 'USB JTAG/serial...' from the list</ol>
-                        <ol>3. Select 'Install' from the popup menu and confirm</ol>
-                        <ol>4. Wait for the device to write brand binary (this may take upto a minute)</ol>
-                        <ol>5. You should see a confirmation message within the popup menu</ol>
-                    <li>Step 5 - Restart your device </li>
-                        <ol>1. Turn the device off by flipping the power switch to 'OFF'</ol>
-                        <ol>2. Wait approximately 15 seconds</ol>
-                        <ol>3. Flip the power switch to 'ON'</ol>
+
+            <div class="card">
+                <div class="flex flex-col gap-6">
+                    <h2>Flash to device</h2>
+
+                    <div id="error-message" class="hidden">
+                        <div class="message message-error">
+                            <svg class="message-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <p id="error-text" class="message-content"></p>
+                        </div>
+                    </div>
+
+                    <esp-web-install-button></esp-web-install-button>
+                </div>
             </div>
         </div>
     </div>
 
-    <footer>Tailor your TRMNL</footer>
+    <footer class="footer">
+        <div class="footer-left">
+            <a href="https://trmnl.com" target="_blank" rel="noopener noreferrer" class="footer-logo-link" aria-label="TRMNL">
+                <svg class="footer-logo" width="145" height="30" viewBox="0 0 145 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#clip0_footer)"><path fill-rule="evenodd" clip-rule="evenodd" d="M34.9489 10.2789V7.28125H52.8609V10.2789H45.6156V22.884H42.2154V10.2789H34.9489Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M56.3649 7.28125V22.884H59.7862V17.4183H69.0494C69.694 17.4183 70.1156 17.5554 70.3773 17.7967C70.634 18.0333 70.7919 18.4217 70.7919 19.0548V22.884H74.1921V18.6523C74.1921 17.6928 73.8642 16.9067 73.2671 16.3544C72.9253 16.0383 72.5047 15.8073 72.0255 15.6619C72.5977 15.3836 73.0714 15.0168 73.4365 14.5636C74.0122 13.849 74.298 12.9443 74.298 11.8943C74.298 10.4152 73.8044 9.23925 72.7523 8.44439C71.7156 7.66117 70.1794 7.28125 68.1596 7.28125H56.3649ZM67.5665 14.5054H59.7862V10.173H67.5665C68.6983 10.173 69.5072 10.3223 70.0276 10.6499C70.5182 10.9587 70.7919 11.4522 70.7919 12.2756C70.7919 13.1124 70.5157 13.6415 70.0192 13.9783C69.4992 14.3312 68.692 14.5054 67.5665 14.5054Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M78.5827 22.884V7.28125H83.3207L90.1229 18.9421L96.9044 7.28125H101.621V22.884H98.2212V11.3754L91.6053 22.884H88.62L82.0041 11.3754V22.884H78.5827Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M110.897 7.28125H106.304V22.884H109.725V10.8879L120.66 22.884H125.232V7.28125H121.832V19.2774L110.897 7.28125Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M133.35 7.28125H129.928V22.884H144.641V19.8864H133.35V7.28125Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8.02188 2.11328L15.8862 5.07445L14.4258 8.98481L6.56146 6.02364L8.02188 2.11328Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M20.6315 1.14647L23.2291 9.16642L19.2738 10.458L16.6761 2.43807L20.6315 1.14647Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M29.244 10.4452L24.6188 17.4848L21.147 15.185L25.7722 8.14549L29.244 10.4452Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M27.374 23.0034L19.0089 23.7616L18.6349 19.6023L27 18.8441L27.374 23.0034Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M16.4297 29.3638L10.6237 23.2697L13.6293 20.3828L19.4352 26.4769L16.4297 29.3638Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M4.65232 24.7423L5.77753 16.3849L9.89932 16.9443L8.77411 25.3017L4.65232 24.7423Z" fill="#000"/><path fill-rule="evenodd" clip-rule="evenodd" d="M0.910558 12.6074L8.11961 8.28L10.2539 11.8645L3.04481 16.192L0.910558 12.6074Z" fill="#000"/></g><defs><clipPath id="clip0_footer"><rect width="145" height="30" fill="white"/></clipPath></defs></svg>
+            </a>
+            <a href="https://trmnl.com" target="_blank" rel="noopener noreferrer" class="text-gray-500">trmnl.com</a>
+        </div>
+        <a href="https://github.com/usetrmnl/tailor" target="_blank" rel="noopener noreferrer" class="text-gray-500">github.com/usetrmnl/tailor</a>
+    </footer>
 </div>
 </body>
 </html>

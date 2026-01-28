@@ -183,10 +183,7 @@
             document.querySelector("esp-web-install-button").manifest = URL.createObjectURL(manifestBlob);
 
             btn.textContent = 'Ready to Flash!';
-            setTimeout(() => {
-              btn.textContent = '';
-              btn.disabled = true;
-            }, 2000);
+            btn.disabled = true;
           } catch (error) {
             console.error(error);
             btn.textContent = 'Error - Try Again';

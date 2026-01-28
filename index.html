@@ -169,7 +169,7 @@
           btn.disabled = true;
 
           try {
-            const blob = await createBinary();
+            const blob = await createBinary(state.logo.file, state.loader.file);
             const manifest = {
               name: "TRMNL Firmware",
               new_install_prevent_erase: true,
